@@ -11,6 +11,8 @@ from each other. Multiple edges/neighbors are handled by the vector from C++ STL
 #include "neighbor.h"
 #include <string>
 
+class neighbor;
+
 class city_node{
 private:
     std::vector<neighbor> m_neighbors;
@@ -19,7 +21,7 @@ public:
     //Parameterized CTOR, requires a name to create a city_node
     city_node(const std::string name);
     //Connects two city_nodes together via member sof hte neighbor class
-    void addNeighbor(const city_node *city, const float distance);
+    void addNeighbor(city_node &city, const float distance);
     //Returns the name of the current city_node
     std::string getName() const;
     //Gets the number of neighbors connected to the current city
@@ -28,5 +30,33 @@ public:
     city_node* getNeighbor(int index=0);
 };
 
-//#include city_node.cpp
+city_node::city_node(const std::string name) : m_name(name)
+{
+}
+
+void city_node::addNeighbor(city_node &city, const float distance)
+{
+    neighbor *temp_ptr = new neighbor(&city, distance);
+    m_neighbors.push_back(*temp_ptr);
+    temp_ptr = new neighbor(this, distance);
+    city.m_neighbors.push_back(*temp_ptr);
+}
+
+std::string city_node::getName() const{
+    return m_name;
+}
+
+int city_node::getNeighborCount() const{
+    return m_neighbors.size();
+}
+
+city_node *city_node::getNeighbor(int index)
+{
+    if(index < 0 || index > m_neighbors.size()-1)
+    {
+        return NULL;
+    }
+    return m_neighbors[index].getNeighbor();
+}
+
 #endif
