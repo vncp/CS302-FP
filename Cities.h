@@ -21,8 +21,8 @@ public:
     bool removeNeighbor(std::string cityName, std::string neighborName);
     
     //File I/O
-    //-Input City Data from Text
-    //-Output Paths Data to Text
+    //-Input City Data from CSV
+    //-Output Paths Data to CSV
 
     //Returns a list of all the possible paths and their distances
     //from a city and back
