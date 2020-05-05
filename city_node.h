@@ -16,11 +16,14 @@ class neighbor;
 class city_node{
 private:
     std::vector<neighbor> m_neighbors;
-    const std::string m_name;
+    std::string m_name;
 public:
     //Parameterized CTOR, requires a name to create a city_node
-    city_node(const std::string name);
+    city_node(std::string name);
+    //Copy CTOR
+    city_node(const city_node &city_copy);
     //Connects two city_nodes together via member sof hte neighbor class
+    city_node &operator=(const city_node &rhs);
     void addNeighbor(city_node &city, const float distance);
     //Returns the name of the current city_node
     std::string getName() const;
@@ -30,16 +33,30 @@ public:
     city_node* getNeighbor(int index=0);
 };
 
+city_node &city_node::operator=(const city_node &rhs)
+{
+    if(this != &rhs)
+    {
+        m_name = m_name;
+        m_neighbors = rhs.m_neighbors;
+    }
+    return *this;
+}
+
 city_node::city_node(const std::string name) : m_name(name)
 {
 }
 
+city_node::city_node(const city_node &city_copy) : m_name(city_copy.m_name), m_neighbors(city_copy.m_neighbors)
+{
+}
 void city_node::addNeighbor(city_node &city, const float distance)
 {
     neighbor *temp_ptr = new neighbor(&city, distance);
     m_neighbors.push_back(*temp_ptr);
     temp_ptr = new neighbor(this, distance);
     city.m_neighbors.push_back(*temp_ptr);
+    delete temp_ptr;
 }
 
 std::string city_node::getName() const{
