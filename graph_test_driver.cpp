@@ -23,9 +23,14 @@ int main(void)
     cout << "\n";
     
     Cities city_graph;
-    city_graph.addCity("Las Vegas");
     city_graph.addCity("Reno");
+    city_graph.addCity("Las Vegas");
+    city_graph.addCity("Salt Lake City");
+    city_graph.addCity("Seattle");
     city_graph.addNeighbor("Las Vegas", "Reno", 438.6);
+    city_graph.addNeighbor("Salt Lake City", "Las Vegas", 802.2);
+    city_graph.addNeighbor("Reno", "Salt Lake City", 502);
+    city_graph.addNeighbor("Seattle", "Reno", 529);
     city_graph.printData();
 
 }

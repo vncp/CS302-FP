@@ -15,6 +15,7 @@ protected:
     //Returns the city node associated wiith a string, if not found then
     //it will return a null_ptr
     std::vector<city_node>::iterator searchName(const std::string name, bool &success);
+    void permutePath(std::vector<std::pair<city_node, int>> city, city_node *current);
 public:
     //void permute(city_node current, const std::string start_name);
 
@@ -35,7 +36,7 @@ public:
 
     //Returns a list of all the possible paths and their distances
     //from a city and back given a starting city node
-    void printPaths(city_node city);
+    void printPaths(std::ostream &os);
 };
 
 #include "Cities.cpp"
