@@ -15,7 +15,8 @@ protected:
     //Returns the city node associated wiith a string, if not found then
     //it will return a null_ptr
     std::vector<city_node>::iterator searchName(const std::string name, bool &success);
-    void permutePath(std::vector<std::pair<city_node, int>> city, city_node *current);
+    void permutePath(city_node next, std::vector<city_node> passed);
+    void rotateVector(std::vector<city_node>::iterator beg, std::vector<city_node>::iterator mid, std::vector<city_node>::iterator end);
 public:
     //void permute(city_node current, const std::string start_name);
 

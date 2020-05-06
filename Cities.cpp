@@ -1,4 +1,5 @@
 #include "Cities.h"
+#include <algorithm>
 
 std::vector<city_node>::iterator Cities::searchName(const std::string name, bool &success)
 {
@@ -81,44 +82,80 @@ void Cities::printData()
 
 void Cities::printPaths(std::ostream &os)
 {
-    std::vector<std::pair<city_node, int>> traversed;
-    for(auto it:m_cities)
-        traversed.push_back(std::make_pair(it, 0));
+    //Attempt - Passed Vector
+    /*
+    std::vector<city_node> passed;
+    for(unsigned i = 0; i<m_cities[0].getNeighborCount(); i++)
+    {
+        std::cout << "New Path: \n";
+        std::cout << m_cities[0].getName() << std::endl;
+        passed.push_back(m_cities[0]);
+        int distance = 0;
+        permutePath(*m_cities[0].getNeighbor(i), passed);
+    }
+    */
+    //Attempt - Rotate City Copy Array;
+    std::vector<city_node> cities_cpy;
+    cities_cpy.reserve(m_cities.size());
+    for(int i=0; i<m_cities.size()-1; i++)
+    {
+        cities_cpy.push_back(m_cities[i]);
+        std::cout << m_cities[i].getName() << std::endl;
+    }
+    //Rotate
 
-    
-    permutePath(traversed, &traversed[0].first);
-    
+
+    for(int i=0; i<cities_cpy.size()-2; i++)
+    {
+        for(int j=0; j<cities_cpy.size()-3; j++)
+        {
+            for(int k=0; k<cities_cpy.size()-4; k++)
+            {
+                for(int l=0; l<cities_cpy.size()-5; l++)
+                {
+                    std::cout << "Path: ";
+                    for(auto it=cities_cpy.begin(); it!=cities_cpy.end()-1; it++)
+                        std::cout << it->getName() << " -> ";
+                    std::cout << std::endl;                   
+                    std::rotate(cities_cpy.begin()+4, cities_cpy.begin()+5, cities_cpy.end()-1);
+                }
+                std::rotate(cities_cpy.begin()+3, cities_cpy.begin()+4, cities_cpy.end()-1);
+            }
+            std::rotate(cities_cpy.begin()+2, cities_cpy.begin()+3, cities_cpy.end()-1);
+        }
+        std::rotate(cities_cpy.begin()+1, cities_cpy.begin()+2, cities_cpy.end()-1);
+    }                
 }
 
-void Cities::permutePath(std::vector<std::pair<city_node, int>> city, city_node *current)
+void Cities::rotateVector(std::vector<city_node>::iterator beg, std::vector<city_node>::iterator mid, std::vector<city_node>::iterator end)
 {
-    //Print Name
-    std::cout << current->getName() << std::endl;
-    //Iterate count of city
-    int current_index=0;
-    for(auto it:city)
+    if(mid!=beg)
     {
-        if(current->getName() == it.first.getName())
-            break;
-        current_index++;
+        //Save front
+        city_node temp = *beg;
+        //replace i-1 with i until i=end
+        auto curr_next = beg;
+        for(auto curr=beg+1; curr != end; curr++)
+            *curr_next++ = *curr;
+        *(end-1) = temp;
+        rotateVector(beg, mid-1, end);
     }
-    //Iterate current by one
-    city[current_index].second++;
-    //Loop through Neighbors
-    for(int i=0;i<current->getNeighborCount();i++)
+}
+
+void Cities::permutePath(city_node next, std::vector<city_node> passed)
+{
+    //Attempt - Passed Vector
+    /*
+    passed.push_back(next);
+    for(unsigned i = 0; i<next.getNeighborCount(); i++)
     {
-        //Find Neighbors Index Relative to city
-        int neighbor_index=0;
-        for(auto it: city)
-        {
-            if(it.first.getName() == current->getNeighbor(i)->getName())
-                break;
-            neighbor_index++;
-        }
-        //std::cout << "Checking neighbor of " << current->getName() << ": " << city[neighbor_index].first.getName() << std::endl;
-        //std::cout << city[neighbor_index].second << " vs " << city[current_index].second << std::endl;
-        //If This Neighbor's Index < Current Index, do Recursive Call
-        if(city[neighbor_index].second < city[current_index].second)
-            permutePath(city, current->getNeighbor(i));
+        std::cout << next.getName() << std::endl;
+        bool new_path = true;
+        for(auto it : passed)
+            if(it == *next.getNeighbor(i))
+                new_path = false;
+        if(new_path)
+            permutePath(*next.getNeighbor(i), passed);
     }
+    */
 }

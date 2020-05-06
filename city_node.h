@@ -24,6 +24,7 @@ public:
     city_node(const city_node &city_copy);
     //Connects two city_nodes together via member sof hte neighbor class
     city_node &operator=(const city_node &rhs);
+    bool operator==(const city_node &rhs);
     void addNeighbor(city_node &city, const float distance);
     //Returns the name of the current city_node
     std::string getName() const;
@@ -32,6 +33,14 @@ public:
     //Returns neighbor of the current city_node via index
     city_node* getNeighbor(int index=0);
 };
+
+bool city_node::operator==(const city_node &rhs)
+{
+    if(rhs.getName() == m_name)
+        return true;
+    else
+        return false;
+}   
 
 city_node &city_node::operator=(const city_node &rhs)
 {
