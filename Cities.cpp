@@ -1,26 +1,26 @@
 #include "Cities.h"
 
-city_node *Cities::searchName(const std::string name)
+std::vector<city_node>::iterator Cities::searchName(const std::string name, bool &success)
 {
-    city_node *city_ptr;
-    for(auto i: m_cities)
+    for(std::vector<city_node>::iterator it=m_cities.begin(); it!=m_cities.end(); it++)
     {
-        if(i.getName() == name)
+        if(it->getName() == name)
         {
-            city_ptr = &i;
-            return city_ptr;
+            success = true;
+            return it;
         }
     }
-    return nullptr;
+    success = false;
+    return m_cities.end();
 }
 
 bool Cities::addCity(const std::string cityName)
 {
     //City w/ name already exists
-    if(searchName(cityName))
-    {
+    bool successful = false;
+    searchName(cityName, successful);
+    if(successful)
         return false;
-    }
     else
     {
         city_node *temp_ptr = new city_node(cityName);
@@ -33,36 +33,33 @@ bool Cities::addCity(const std::string cityName)
 
 bool Cities::removeCity(const std::string cityName)
 {
-
-    city_node *del_ptr = searchName(cityName);
-    if(!del_ptr)
-    {
+    bool successful = false;
+    auto it = searchName(cityName, successful);
+    if(!successful)
         return false;
-    }
-    for(auto it = m_cities.begin(); it!=m_cities.end(); it++)
+    else
     {
-        std::string name = it->getName();
-        if(name == del_ptr->getName())
-        {
-            m_cities.erase(it);
-            return true;
-        }
-    }                                                                
-    return false;
+        m_cities.erase(it);
+    }
+    return true;
 }
 
 bool Cities::addNeighbor(const std::string cityName, const std::string neighborName, const float distance)
 {
-    if(!searchName(cityName) || !searchName(neighborName))
-    {
+    bool successful_1 = false, successful_2 = false;
+    auto it_1 = searchName(cityName, successful_1), it_2 = searchName(neighborName, successful_2);
+    if(!successful_1 || !successful_2)
         return false;
-    }
-    searchName(cityName)->addNeighbor(*searchName(neighborName), distance);
+    else
+        it_1->addNeighbor(*it_2, distance);
     return true;
 }
 
-void Cities::printData(std::string cityName)
+void Cities::printData()
 {
-    city_node *temp_ptr = searchName(cityName);
-    std::cout << temp_ptr->getName() << "'s neighbor: " << temp_ptr->getNeighbor() << std::endl;
+    std::cout << "Printing City Data\n";
+    for(auto it:m_cities)
+    {
+        std::cout << it.getName() << "'s Neighbor is " << it.getNeighbor()->getName() << std::endl;
+    }
 }

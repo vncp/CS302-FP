@@ -20,9 +20,12 @@ int main(void)
     cout << city_01.getName() << "'s neighbor is " << city_01.getNeighbor()->getName() << endl;
     cout << city_02.getName() << "'s neighbor is " << city_02.getNeighbor()->getName() << endl;
 
+    cout << "\n";
+    
     Cities city_graph;
     city_graph.addCity("Las Vegas");
     city_graph.addCity("Reno");
-
+    city_graph.addNeighbor("Las Vegas", "Reno", 438.6);
+    city_graph.printData();
 
 }

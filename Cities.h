@@ -14,7 +14,7 @@ private:
 protected: 
     //Returns the city node associated wiith a string, if not found then
     //it will return a null_ptr
-    city_node *searchName(const std::string name);
+    std::vector<city_node>::iterator searchName(const std::string name, bool &success);
 public:
     //void permute(city_node current, const std::string start_name);
 
@@ -28,7 +28,7 @@ public:
     //Must remove neighbors from both ends
     bool removeNeighbor(std::string cityName, std::string neighborName);
     
-    void printData(std::string cityName);
+    void printData();
     //File I/O
     //-Input City Data from CSV
     //-Output Paths Data to CSV
