@@ -14,8 +14,11 @@ protected:
     //Returns the city node associated wiith a string, if not found then
     //it will return a null_ptr
     std::vector<city_node>::iterator searchName(const std::string name, bool &success);
-    void permutePath(std::vector<std::pair<city_node, bool>> bools, std::vector<city_node> path);
+    //Returns min
+    void permuteBack(std::ostream &os, std::vector<std::pair<city_node, bool>> bools, std::vector<city_node> path, city_node destination, float &minCost, std::vector<city_node> &minPath);
+    void permutePath(std::ostream &os, std::vector<std::pair<city_node, bool>> bools, std::vector<city_node> path, city_node destination, float &minCost, std::vector<city_node> &minPath);
     void rotateVector(std::vector<city_node>::iterator beg, std::vector<city_node>::iterator mid, std::vector<city_node>::iterator end);
+    float getTravelCost(city_node &city_a, city_node &city_b);
 public:
     //void permute(city_node current, const std::string start_name);
 

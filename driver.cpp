@@ -3,14 +3,19 @@
 #include <iostream>
 using namespace std;
 
-const string FILENAME = "city_input.csv";
+const string IN_FILENAME = "city_input.csv";
+const string OUT_FILENAME = "output.txt";
+
 int main(void)
 {
-    cout << "\n";
+    cout << "Final Project - Traveling Salesman Problem - CS302 - Erin Keith\n";
+    cout << "Group: Vincent Pham & Prim Wandeevong\n\n";
+    cout << "https://github.com/vncp/CS302-FP\n\n";
+
     //Testing File IO + addCity() + addNeighbor()
     Cities city_graph;
     ifstream inFile;
-    inFile.open(FILENAME);
+    inFile.open(IN_FILENAME);
     string temp;
 
     //Reads cities
@@ -23,6 +28,7 @@ int main(void)
     city_graph.addCity(temp);
 
     //Adds Neighbors
+    cout << "Creating edges between vertices with the following weights: \n";
     for(int i = 0; i < 9; i++)
     {
         string city, neighbor, tempD;
@@ -33,9 +39,15 @@ int main(void)
         cout << city << " " << neighbor << " " << distance << endl;
         if(city_graph.addNeighbor(city,neighbor,distance)==false)
             cout << "Adding Neighbor Failed!\n";
-        
     }
+    inFile.close();
     cout << endl;
-    city_graph.printData();
-    city_graph.printPaths(cout);
+
+    //Output to Terminal
+    ofstream outputStream;
+    outputStream.open(OUT_FILENAME);
+    cout << "Calculating all paths and minimum cost..\n";
+    city_graph.printPaths(outputStream);
+    cout << "\nPrinting Data to " << OUT_FILENAME << endl;
+    outputStream.close();
 }

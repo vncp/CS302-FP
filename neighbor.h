@@ -18,7 +18,7 @@ public:
     //Parameterized constructor which sets the current calling city node to the neighbor of the 
     //other and vice versa. 
     neighbor(city_node *city, const float distance, const float mpg = 40):
-     m_neighbor(city),m_miles(distance), m_cost(distance*mpg)
+     m_neighbor(city),m_miles(distance), m_cost(distance/mpg)
 {
 }
     //The cost of the trip between cities which is the distance multiplied by the mpg

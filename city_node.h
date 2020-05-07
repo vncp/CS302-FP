@@ -14,7 +14,7 @@ from each other. Multiple edges/neighbors are handled by the vector from C++ STL
 class neighbor;
 
 class city_node{
-private:
+protected:
     std::vector<neighbor> m_neighbors;
     std::string m_name;
 public:
@@ -32,7 +32,13 @@ public:
     int getNeighborCount() const;
     //Returns neighbor of the current city_node via index
     city_node* getNeighbor(int index=0);
+    float getNeighborCost(int index=0);
 };
+
+float city_node::getNeighborCost(int index)
+{
+    return m_neighbors[index].getCost();
+}
 
 bool city_node::operator==(const city_node &rhs)
 {
@@ -46,7 +52,7 @@ city_node &city_node::operator=(const city_node &rhs)
 {
     if(this != &rhs)
     {
-        m_name = m_name;
+        m_name = rhs.m_name;
         m_neighbors = rhs.m_neighbors;
     }
     return *this;
