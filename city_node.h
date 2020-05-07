@@ -15,8 +15,8 @@ class neighbor;
 
 class city_node{
 protected:
-    std::vector<neighbor> m_neighbors;
     std::string m_name;
+    std::vector<neighbor> m_neighbors;
 public:
     //Parameterized CTOR, requires a name to create a city_node
     city_node(std::string name);
@@ -84,7 +84,7 @@ int city_node::getNeighborCount() const{
 
 city_node *city_node::getNeighbor(int index)
 {
-    if(index < 0 || index > m_neighbors.size()-1)
+    if(index < 0 || index > (int)m_neighbors.size()-1)
     {
         return NULL;
     }
